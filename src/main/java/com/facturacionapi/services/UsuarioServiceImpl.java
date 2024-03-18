@@ -1,5 +1,8 @@
 package com.facturacionapi.services;
 
+import com.facturacionapi.DTO.ProductoDTO;
+import com.facturacionapi.DTO.UsuarioDTO;
+import com.facturacionapi.entities.Producto;
 import com.facturacionapi.entities.Usuario;
 import com.facturacionapi.repositories.UsuarioRepository;
 import org.slf4j.Logger;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,4 +53,34 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
     public Usuario findByUsername(String username) {
         return usuarioRepository.findByUsername(username);
     }
+
+    @Transactional
+    public List<UsuarioDTO> findAll() throws Exception{
+        var resultado = this.usuarioRepository.findAll();
+        try{
+            return resultado.stream().map(UsuarioDTO::new).collect(Collectors.toList());
+        } catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public UsuarioDTO getById(Long id){
+        var resultado = this.usuarioRepository.findById(id);
+        if(!resultado.isPresent()) return null;
+            return new UsuarioDTO(resultado.get());
+    }
+
+    @Override
+    @Transactional
+    public Usuario getEntityById(Long id){
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        if(usuario.isPresent()) {
+            Usuario user= usuario.get();
+            return user;
+        } else return null;
+    }
+
+
+
+
 }

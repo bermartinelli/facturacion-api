@@ -1,5 +1,6 @@
 package com.facturacionapi.entities;
 
+import com.facturacionapi.DTO.UsuarioDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -49,6 +50,17 @@ public class Usuario implements Serializable {
             inverseJoinColumns=@JoinColumn(name="rol_id"),
             uniqueConstraints= {@UniqueConstraint(columnNames= {"usuario_id", "rol_id"})})
     private List<Rol> roles;
+
+    public Usuario(UsuarioDTO usuario){
+        this.id = usuario.getId();
+        this.username = usuario.getUsername();
+        this.password = usuario.getPassword();
+        this.enabled = usuario.getEnabled();
+        this.nombre = usuario.getNombre();
+        this.apellido = usuario.getApellido();
+        this.email = usuario.getEmail();
+        this.roles = usuario.getRoles();
+    }
 
     public void setId(Long id) {
         this.id = id;

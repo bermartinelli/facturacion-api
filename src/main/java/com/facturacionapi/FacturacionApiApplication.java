@@ -22,7 +22,7 @@ public class FacturacionApiApplication implements CommandLineRunner {
         String password = "12345";
         for(int i=0; i< 4;i++){
             String passBcrypt = passwordEncoder.encode(password);
-            System.out.println(passBcrypt);
+            //System.out.println(passBcrypt);
         }
 
     }
